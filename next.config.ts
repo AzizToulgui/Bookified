@@ -9,10 +9,16 @@ const nextConfig: NextConfig = {
     typescript: {
         ignoreBuildErrors: true,
     },
-    images: { remotePatterns: [
+    images: {
+        remotePatterns: [
             { protocol: 'https', hostname: 'covers.openlibrary.org' },
-            { protocol: 'https', hostname: 'lspfdyhgsrgsxcju.public.blob.vercel-storage.com' },
-        ]}
+            { 
+                protocol: 'https', 
+                hostname: '*.public.blob.vercel-storage.com' 
+            },
+        ],
+        dangerouslyAllowLocalIP: true,   // Only needed in dev if you see this error
+    }
 };
 
 export default nextConfig;
