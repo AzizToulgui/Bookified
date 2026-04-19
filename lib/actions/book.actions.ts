@@ -181,7 +181,7 @@ export const searchBookSegments = async (bookId: string, query: string, limit: n
     try {
         await connectToDatabase();
 
-        console.log(`Searching for: "${query}" in book ${bookId}`);
+        // console.log(`Searching for: "${query}" in book ${bookId}`);
 
         const bookObjectId = new mongoose.Types.ObjectId(bookId);
 
@@ -216,7 +216,7 @@ export const searchBookSegments = async (bookId: string, query: string, limit: n
                 .lean();
         }
 
-        console.log(`Search complete. Found ${segments.length} results`);
+            console.log(`Search complete. Found ${segments.length} results`);
 
         return {
             success: true,
