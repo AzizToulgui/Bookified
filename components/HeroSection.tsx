@@ -7,7 +7,6 @@ const HeroSection = () => {
         <section className="wrapper mb-10 md:mb-16">
             <div className="library-hero-card">
                 <div className="library-hero-content">
-                    {/* Left Part */}
                     <div className="library-hero-text">
                         <h1 className="library-hero-title text-4xl font-serif font-bold">Your Library</h1>
                         <p className="library-hero-description">
@@ -20,7 +19,6 @@ const HeroSection = () => {
                         </Link>
                     </div>
 
-                    {/* Center Part - Desktop */}
                     <div className="library-hero-illustration-desktop">
                         <Image
                             src="/assets/hero-illustration.png"
@@ -31,7 +29,6 @@ const HeroSection = () => {
                         />
                     </div>
 
-                    {/* Center Part - Mobile (Hidden on Desktop) */}
                     <div className="library-hero-illustration">
                         <Image
                             src="/assets/hero-illustration.png"
@@ -42,7 +39,6 @@ const HeroSection = () => {
                         />
                     </div>
 
-                    {/* Right Part */}
                     <div className="library-steps-card min-w-[260px] max-w-[280px] z-10 shadow-soft-md">
                         <ul className="space-y-6">
                             <li className="library-step-item">
