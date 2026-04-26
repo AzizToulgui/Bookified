@@ -16,7 +16,7 @@
 
   </div>
 
-  <h3 align="center">AI Book Companion</h3>
+  <h3 align="center">AI Book Companion | Reading Buddy</h3>
 </div>
 
 ## 📋 <a name="table">Table of Contents</a>
