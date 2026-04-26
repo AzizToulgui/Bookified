@@ -1,0 +1,55 @@
+@startuml
+skinparam backgroundColor #F9F7EB
+skinparam sequence {
+  ActorBackgroundColor #F5EFD6
+  ActorBorderColor #8C7040
+  ParticipantBackgroundColor #F5EFD6
+  ParticipantBorderColor #8C7040
+  ParticipantFontColor #3A2A10
+  ArrowColor #8C7040
+  LifeLineBorderColor #B09860
+  BoxBackgroundColor #EDE3CC
+  BoxBorderColor #8C7040
+}
+
+actor "Membre" as M
+participant "ServeurAuth" as SA
+participant "ServeurLivre" as SL
+participant "AgentIA" as AI
+database "MongoDB" as DB
+
+M -> SA : demanderSession(token)
+
+alt token valide
+  SA -> DB : vérifierToken(clerkId)
+  DB --> SA : utilisateur + plan
+  SA --> M : sessionAutorisée(limites)
+else token invalide
+  SA --> M : erreur 401
+end
+
+M -> SL : choisirLivre(slug)
+SL -> DB : chargerSegments(bookId)
+DB --> SL : segments[]
+SL --> M : livreChargé + contexte
+
+M -> DB : créerSessionVocale(clerkId, bookId)
+
+loop session active et durée non dépassée
+  M -> AI : envoyerMessage(texte)
+  AI -> DB : rechercherContexte()
+  DB --> AI : passages pertinents
+  AI -> AI : générerRéponse(LLM)
+  AI --> M : réponseIA(texte)
+  AI -> DB : mettreAJourDurée()
+
+  opt durée restante ≤ 1 minute
+    AI --> M : avertissement(tempRestant)
+    M -> AI : optionUpgrade()
+    AI --> M : afficherModalUpgrade()
+  end
+end
+
+AI -> DB : fermerSession(endedAt)
+DB --> M : sessionTerminée(durée totale)
+@enduml

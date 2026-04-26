@@ -1,0 +1,57 @@
+@startuml
+left to right direction
+skinparam backgroundColor #F9F7EB
+skinparam actorStyle awesome
+skinparam usecase {
+  BackgroundColor #F5EFD6
+  BorderColor #8C7040
+  FontColor #3A2A10
+}
+skinparam actor {
+  BackgroundColor #F5EFD6
+  BorderColor #8C7040
+  FontColor #3A2A10
+}
+
+actor "Visiteur" as V
+actor "Membre Free" as MF
+actor "Membre Abonné" as MA
+actor "Admin" as AD
+
+rectangle "Système Bookified" {
+  usecase "Consulter page d'accueil" as UC1
+  usecase "Consulter catalogue" as UC2
+  usecase "Créer un compte" as UC3
+  usecase "Se connecter" as UC4
+  usecase "Rechercher un livre" as UC5
+  usecase "Démarrer session IA" as UC6
+  usecase "Limiter durée selon plan" as UC7
+  usecase "Afficher avertissement fin session" as UC8
+  usecase "Consulter plans abonnement" as UC9
+  usecase "Modifier abonnement" as UC10
+  usecase "Gérer catalogue livres" as UC11
+  usecase "Accéder tableau de bord" as UC12
+}
+
+V --> UC1
+V --> UC2
+V --> UC3
+
+MF --> UC4
+MF --> UC5
+MF --> UC6
+MF --> UC9
+
+MA --> UC6
+MA --> UC9
+MA --> UC10
+
+AD --> UC11
+AD --> UC12
+
+UC5 .> UC4 : <<include>>
+UC6 .> UC5 : <<include>>
+UC6 .> UC7 : <<include>>
+UC6 <. UC8 : <<extend>>
+UC9 <. UC10 : <<extend>>
+@enduml

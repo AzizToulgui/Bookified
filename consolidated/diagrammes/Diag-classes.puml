@@ -1,0 +1,105 @@
+@startuml
+skinparam backgroundColor #F9F7EB
+skinparam class {
+  BackgroundColor #F5EFD6
+  BorderColor #8C7040
+  FontColor #3A2A10
+  HeaderBackgroundColor #8C7040
+  HeaderFontColor #F9F7EB
+}
+skinparam arrow {
+  Color #8C7040
+}
+
+class Utilisateur {
+  - clerkId : String
+  - email : String
+  - motDePasse : String
+  - nomUtilisateur : String
+  - imageUrl : String
+  - limiteSessionMinutes : int
+  - debutPeriodeFacturation : Date
+  + seConnecter() : boolean
+  + comparerMotDePasse() : boolean
+  + obtenirPlan() : PlanAbonnement
+}
+
+class PlanAbonnement {
+  - nom : String
+  - prix : float
+  - limiteLivres : int
+  - limiteSessionsParMois : int
+  - dureeSessionMinutes : int
+  - supportPrioritaire : boolean
+  + obtenirLimites() : Map
+}
+
+class Livre {
+  - clerkId : String
+  - titre : String
+  - slug : String
+  - auteur : String
+  - persona : String
+  - urlFichier : String
+  - totalSegments : int
+  + obtenirSegments() : SegmentLivre[]
+  + obtenirCouverture() : String
+}
+
+class SegmentLivre {
+  - clerkId : String
+  - bookId : ObjectId
+  - contenu : String
+  - indexSegment : int
+  - nombreMots : int
+  + extraireTexte() : String
+}
+
+class SessionVocale {
+  - clerkId : String
+  - bookId : ObjectId
+  - debuteA : Date
+  - termineA : Date
+  - dureeSecondes : int
+  + demarrer() : void
+  + terminer() : void
+}
+
+class SessionChat {
+  - clerkId : String
+  - bookId : ObjectId
+  - messages : Message[]
+  - debuteA : Date
+  - statut : String
+  + envoyerMessage() : void
+  + obtenirReponseIA() : String
+}
+
+class Abonnement {
+  - clerkId : String
+  - plan : String
+  - debutPeriode : Date
+  - sessionsUtilisees : int
+  - actif : boolean
+  + upgrader(plan : String) : void
+  + downgrader() : void
+}
+
+class AdminTableauDeBord {
+  - adminId : String
+  - dateDernierAcces : Date
+  - filtres : Map
+  - vueActive : String
+  + obtenirStatistiques() : Map
+  + suspendreCompte(id : String) : void
+  + gererLivre(action : String) : void
+}
+
+Utilisateur "1" --> "0..*" Livre : possède
+Utilisateur "1" --> "1" Abonnement : souscrit
+Abonnement "*" --> "1" PlanAbonnement : utilise
+Livre "1" *-- "1..*" SegmentLivre : composé de
+Livre "1" --> "0..*" SessionVocale : utilisé dans
+Livre "1" --> "0..*" SessionChat : utilisé dans
+PlanAbonnement "1" --> "1" Utilisateur : attribué à
+@enduml
